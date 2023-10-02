@@ -1,0 +1,75 @@
+basePath: /api/v1
+definitions:
+  common.ApiErrorResponseModel:
+    properties:
+      error:
+        $ref: '#/definitions/common.ErrorResponseModel'
+    type: object
+  common.ErrorResponseModel:
+    properties:
+      code:
+        type: integer
+      errors:
+        additionalProperties: true
+        type: object
+      message:
+        type: string
+    type: object
+  model.Category:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  model.CategoryList:
+    properties:
+      categories:
+        items:
+          $ref: '#/definitions/model.CategoryResponse'
+        type: array
+      kind:
+        type: string
+    type: object
+  model.CategoryResponse:
+    properties:
+      category:
+        $ref: '#/definitions/model.Category'
+      id:
+        type: string
+      kind:
+        type: string
+    type: object
+host: 127.0.0.1:3000
+info:
+  contact: {}
+  description: This is a sample server for Lion Superindo API Product Service.
+  title: Go Superindo API Product
+  version: 1.0.0
+paths:
+  /categories:
+    get:
+      consumes:
+      - application/json
+      description: Get All Category
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.CategoryList'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+      summary: Get All Category
+      tags:
+      - Category
+schemes:
+- http
+swagger: "2.0"
