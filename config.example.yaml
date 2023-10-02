@@ -1,0 +1,10 @@
+server:
+  user_address: ":3000"
+  user_address_http: "localhost:3000"
+
+database:
+  host: localhost
+  port: 5432
+  user: postgres
+  password: 
+  dbname: db_product
