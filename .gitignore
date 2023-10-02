@@ -1,0 +1,6 @@
+# Ignore config.yaml
+config.local.yaml
+
+# Ignore build golang
+main
+main.exe
