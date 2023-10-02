@@ -4,10 +4,13 @@ import (
 	"log"
 
 	conf "github.com/erjiridholubis/go-superindo-product/internal/config"
-
+	"github.com/erjiridholubis/go-superindo-product/internal/repository"
+	"github.com/erjiridholubis/go-superindo-product/internal/service"
+	
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-
+	
+	httpHandler "github.com/erjiridholubis/go-superindo-product/internal/deliveries"
 	fiberSwagger "github.com/swaggo/fiber-swagger"
 )
 
@@ -24,7 +27,7 @@ func main() {
         log.Fatalf("Failed to initialize configuration: %v", err)
     }
 
-	_, err = conf.InitDB(config)
+	db, err := conf.InitDB(config)
 	if err != nil {
 		log.Fatalf("Failed to initialize database: %v", err)
 	}
@@ -34,7 +37,7 @@ func main() {
 
 	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 	
-	// pathApi := app.Group("/api/v1")
+	pathApi := app.Group("/api/v1")
 
 	// get health
 	app.Get("/health", func(c *fiber.Ctx) error {
@@ -42,6 +45,17 @@ func main() {
 			"message": "ok",
 		})
 	})
+
+	// Initialize repository
+	productRepo := repository.NewPostgreProductRepository(db)
+
+	// Initialize service
+	productService := service.NewProductService(productRepo)
+
+	// Initialize handler
+	apiProduct := pathApi.Group("/products")
+	httpHandler.NewProductHandler(apiProduct, productService)
+
 
 	log.Fatal(app.Listen(":3000"))
 }
