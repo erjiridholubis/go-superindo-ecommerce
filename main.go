@@ -12,6 +12,8 @@ import (
 	
 	httpHandler "github.com/erjiridholubis/go-superindo-product/internal/deliveries"
 	fiberSwagger "github.com/swaggo/fiber-swagger"
+
+	_ "github.com/erjiridholubis/go-superindo-product/docs"
 )
 
 // @title Go Superindo API Product
@@ -47,14 +49,18 @@ func main() {
 	})
 
 	// Initialize repository
-	productRepo := repository.NewPostgreRepository(db)
+	postgreRepo := repository.NewPostgreRepository(db)
 
 	// Initialize service
-	productService := service.NewProductService(productRepo)
+	productService := service.NewProductService(postgreRepo)
+	categoryService := service.NewCategoryService(postgreRepo)
 
 	// Initialize handler
 	apiProduct := pathApi.Group("/products")
 	httpHandler.NewProductHandler(apiProduct, productService)
+
+	apiCategory := pathApi.Group("/categories")
+	httpHandler.NewCategoryHandler(apiCategory, categoryService)
 
 
 	log.Fatal(app.Listen(":3000"))
