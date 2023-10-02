@@ -9,7 +9,7 @@ import (
 )
 
 type Config struct {
-	DB		PSQL 		`mapstructure:"db"`
+	DB		PSQL 		`mapstructure:"database"`
 	Server 	Server 		`mapstructure:"server"`
 }
 
@@ -44,7 +44,7 @@ func InitConfig() (*Config, error) {
 
 func InitDB(config *Config) (*sql.DB, error) {
 	DBConnectionString := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", config.DB.Host, config.DB.Port, config.DB.User, config.DB.Password, config.DB.DBName)
-
+	
 	db, err := sql.Open("postgres", DBConnectionString)
 	if err != nil {
 		log.Fatal(err)
