@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 
+	conf "github.com/erjiridholubis/go-superindo-product/internal/config"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 
@@ -17,15 +19,25 @@ import (
 // @host 127.0.0.1:3000
 // @Version 1.0.0
 func main() {
+	config, err := conf.InitConfig()
+    if err != nil {
+        log.Fatalf("Failed to initialize configuration: %v", err)
+    }
+
+	_, err = conf.InitDB(config)
+	if err != nil {
+		log.Fatalf("Failed to initialize database: %v", err)
+	}
+
 	app := fiber.New()
     app.Use(cors.New())
 
 	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 	
-	pathApi := app.Group("/api/v1")
+	// pathApi := app.Group("/api/v1")
 
 	// get health
-	pathApi.Get("/health", func(c *fiber.Ctx) error {
+	app.Get("/health", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
 			"message": "ok",
 		})
