@@ -12,7 +12,7 @@ type CategoryRequest struct {
 type CategoryResponse struct {
 	Kind		string `json:"kind"`
 	ID		 	string  `json:"id"`
-	Category	*Category `json:"category"`
+	Name		string `json:"name"`
 }
 
 type CategoryList struct {
