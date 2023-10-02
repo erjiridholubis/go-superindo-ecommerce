@@ -4,3 +4,6 @@ config.local.yaml
 # Ignore build golang
 main
 main.exe
+
+# Ignore db_product.sql
+db_product.sql
