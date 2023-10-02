@@ -2,14 +2,14 @@ package repository
 
 import "database/sql"
 
-type postgreProductRepository struct {
+type postgreRepository struct {
 	ConnDB *sql.DB
 }
 
-func NewPostgreProductRepository(connDB *sql.DB) ProductRepository {
-	return &postgreProductRepository{connDB}
+func NewPostgreRepository(connDB *sql.DB) PostgreRepository {
+	return &postgreRepository{connDB}
 }
 
-type ProductRepository interface {
+type PostgreRepository interface {
 
 }

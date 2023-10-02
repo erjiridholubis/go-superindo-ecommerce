@@ -5,10 +5,10 @@ import (
 )
 
 type productService struct {
-	productRepo repository.ProductRepository
+	productRepo repository.PostgreRepository
 }
 
-func NewProductService(productRepo repository.ProductRepository) ProductService {
+func NewProductService(productRepo repository.PostgreRepository) ProductService {
 	return &productService{productRepo}
 }
 

@@ -47,7 +47,7 @@ func main() {
 	})
 
 	// Initialize repository
-	productRepo := repository.NewPostgreProductRepository(db)
+	productRepo := repository.NewPostgreRepository(db)
 
 	// Initialize service
 	productService := service.NewProductService(productRepo)
