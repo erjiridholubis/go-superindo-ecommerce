@@ -15,13 +15,6 @@ definitions:
       message:
         type: string
     type: object
-  model.Category:
-    properties:
-      id:
-        type: string
-      name:
-        type: string
-    type: object
   model.CategoryList:
     properties:
       categories:
@@ -33,11 +26,11 @@ definitions:
     type: object
   model.CategoryResponse:
     properties:
-      category:
-        $ref: '#/definitions/model.Category'
       id:
         type: string
       kind:
+        type: string
+      name:
         type: string
     type: object
 host: 127.0.0.1:3000
@@ -68,6 +61,35 @@ paths:
           schema:
             $ref: '#/definitions/common.ApiErrorResponseModel'
       summary: Get All Category
+      tags:
+      - Category
+  /categories/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Category By ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.CategoryResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+      summary: Get Category By ID
       tags:
       - Category
 schemes:

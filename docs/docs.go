@@ -49,6 +49,50 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/categories/{id}": {
+            "get": {
+                "description": "Get Category By ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Get Category By ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.CategoryResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/common.ApiErrorResponseModel"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/common.ApiErrorResponseModel"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -75,17 +119,6 @@ const docTemplate = `{
                 }
             }
         },
-        "model.Category": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
         "model.CategoryList": {
             "type": "object",
             "properties": {
@@ -103,13 +136,13 @@ const docTemplate = `{
         "model.CategoryResponse": {
             "type": "object",
             "properties": {
-                "category": {
-                    "$ref": "#/definitions/model.Category"
-                },
                 "id": {
                     "type": "string"
                 },
                 "kind": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 }
             }

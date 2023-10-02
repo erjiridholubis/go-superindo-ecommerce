@@ -19,6 +19,7 @@ func NewCategoryService(postgreRepo repository.PostgreRepository) CategoryServic
 
 type CategoryService interface {
 	GetAllCategory(ctx context.Context) (resp *model.CategoryList, err error)
+	GetCategoryByID(ctx context.Context, id string) (resp *model.CategoryResponse, err error)
 }
 
 func (cs *categoryService) GetAllCategory(ctx context.Context) (resp *model.CategoryList, err error) {
@@ -34,6 +35,19 @@ func (cs *categoryService) GetAllCategory(ctx context.Context) (resp *model.Cate
 	resp = &model.CategoryList{
 		Kind: common.KindCollection,
 		Categories: categories,
+	}
+
+	return resp, nil
+}
+
+func (cs *categoryService) GetCategoryByID(ctx context.Context, id string) (resp *model.CategoryResponse, err error) {
+	resp, err = cs.postgreRepo.GetCategoryByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp == nil {
+		return nil, errors.New(common.ErrNotFound)
 	}
 
 	return resp, nil

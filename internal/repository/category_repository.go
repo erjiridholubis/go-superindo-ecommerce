@@ -2,6 +2,8 @@ package repository
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 
 	"github.com/erjiridholubis/go-superindo-product/common"
 	"github.com/erjiridholubis/go-superindo-product/internal/model"
@@ -10,6 +12,12 @@ import (
 var (
 	// Query Get All Category
 	QueryGetAllCategory = `SELECT id, name FROM categories`
+
+	// Query Get Category By ID
+	QueryGetCategoryByID = `SELECT id, name FROM categories WHERE id = $1`
+
+	// Query Create Category
+	QueryCreateCategory = `INSERT INTO categories (id, name) VALUES ($1, $2) RETURNING id`
 )
 
 func (pr *postgreRepository) GetAllCategory(ctx context.Context) (resp []*model.CategoryResponse, err error) {
@@ -19,10 +27,9 @@ func (pr *postgreRepository) GetAllCategory(ctx context.Context) (resp []*model.
 	}
 	defer rows.Close()
 
-	var categories []*model.CategoryResponse
 	for rows.Next() {
-		var category model.Category
-		err = rows.Scan(
+		var category model.CategoryResponse
+		err := rows.Scan(
 			&category.ID,
 			&category.Name,
 		)
@@ -30,12 +37,27 @@ func (pr *postgreRepository) GetAllCategory(ctx context.Context) (resp []*model.
 			return nil, err
 		}
 
-		categories = append(categories, &model.CategoryResponse{
-			Kind: common.KindCategory,
-			ID: category.ID,
-			Category: &category,
-		})
+		category.Kind = common.KindCategory
+		resp = append(resp, &category)
 	}
 
-	return categories, nil
+	return resp, nil
+}
+
+func (pr *postgreRepository) GetCategoryByID(ctx context.Context, id string) (*model.CategoryResponse, error) {
+	var category model.CategoryResponse
+
+	err := pr.ConnDB.QueryRowContext(ctx, QueryGetCategoryByID, id).Scan(
+		&category.ID,
+		&category.Name,
+	)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	category.Kind = common.KindCategory
+	return &category, nil
 }

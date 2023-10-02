@@ -8,6 +8,7 @@ import (
 
 func NewCategoryHandler(app fiber.Router, categorySrv categorySrv.CategoryService) {
 	app.Get("/", getAllCategory(categorySrv))
+	app.Get("/:id", getCategoryByID(categorySrv))
 }
 
 // getAllCategory godoc
@@ -23,6 +24,32 @@ func NewCategoryHandler(app fiber.Router, categorySrv categorySrv.CategoryServic
 func getAllCategory(categorySrv categorySrv.CategoryService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		category, err := categorySrv.GetAllCategory(c.Context())
+		if err != nil {
+			if err.Error() == common.ErrNotFound {
+				return common.ErrorResponseRest(c, fiber.StatusNotFound, err.Error())
+			}
+			return common.ErrorResponseRest(c, fiber.StatusInternalServerError, err.Error())
+		}
+
+		return common.SuccessResponse(c, fiber.StatusOK, category)
+	}
+}
+
+// getCategoryByID godoc
+// @Summary Get Category By ID
+// @Description Get Category By ID
+// @Tags Category
+// @Accept json
+// @Produce json
+// @Param id path string true "Category ID"
+// @Success 200 {object} model.CategoryResponse
+// @Failure 404 {object} common.ApiErrorResponseModel
+// @Failure 500 {object} common.ApiErrorResponseModel
+// @Router /categories/{id} [get]
+func getCategoryByID(categorySrv categorySrv.CategoryService) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		categoryId := c.Params("id")
+		category, err := categorySrv.GetCategoryByID(c.Context(), categoryId)
 		if err != nil {
 			if err.Error() == common.ErrNotFound {
 				return common.ErrorResponseRest(c, fiber.StatusNotFound, err.Error())

@@ -18,4 +18,5 @@ func NewPostgreRepository(connDB *sql.DB) PostgreRepository {
 type PostgreRepository interface {
 	// Category
 	GetAllCategory(ctx context.Context) (resp []*model.CategoryResponse, err error)
+	GetCategoryByID(ctx context.Context, id string) (*model.CategoryResponse, error)
 }
