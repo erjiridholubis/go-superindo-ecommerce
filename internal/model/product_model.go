@@ -24,3 +24,9 @@ type ProductResponse struct {
 	Price       uint64  `json:"price"`
 	Stock       uint64  `json:"stock"`
 }
+
+type ProductList struct {
+	Kind		string `json:"kind"`
+	CategoryID	string `json:"category_id"`
+	Products	[]*ProductResponse `json:"products"`
+}
