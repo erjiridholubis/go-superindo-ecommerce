@@ -15,6 +15,14 @@ definitions:
       message:
         type: string
     type: object
+  common.ErrorValidationResponseModel:
+    properties:
+      code:
+        type: integer
+      errors: {}
+      message:
+        type: string
+    type: object
   model.CategoryList:
     properties:
       categories:
@@ -22,6 +30,11 @@ definitions:
           $ref: '#/definitions/model.CategoryResponse'
         type: array
       kind:
+        type: string
+    type: object
+  model.CategoryRequest:
+    properties:
+      name:
         type: string
     type: object
   model.CategoryResponse:
@@ -89,6 +102,35 @@ paths:
           schema:
             $ref: '#/definitions/common.ApiErrorResponseModel'
       summary: Get All Category
+      tags:
+      - Category
+    post:
+      consumes:
+      - application/json
+      description: Create Category
+      parameters:
+      - description: Category Body
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/model.CategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.CategoryResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/common.ErrorValidationResponseModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+      summary: Create Category
       tags:
       - Category
   /categories/{id}:

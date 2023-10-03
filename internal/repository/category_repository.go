@@ -61,3 +61,12 @@ func (pr *postgreRepository) GetCategoryByID(ctx context.Context, id string) (*m
 	category.Kind = common.KindCategory
 	return &category, nil
 }
+
+func (pr *postgreRepository) CreateCategory(ctx context.Context, category *model.Category) (productId string, err error) {
+	err = pr.ConnDB.QueryRowContext(ctx, QueryCreateCategory, category.ID, category.Name).Scan(&productId)
+	if err != nil {
+		return "", err
+	}
+
+	return productId, nil
+}
