@@ -1,5 +1,5 @@
 server:
-  user_address: ":80"
+  user_address: ":3000"
   user_address_http: "localhost:3000"
 
 database:
