@@ -2,6 +2,7 @@ package model
 
 type Product struct {
 	ID          string  `json:"id"`
+	CategoryID	string `json:"category_id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	Price       uint64  `json:"price"`
@@ -11,6 +12,7 @@ type Product struct {
 }
 
 type ProductRequest struct {
+	CategoryID	string `json:"category_id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	Price       uint64  `json:"price"`
@@ -18,7 +20,9 @@ type ProductRequest struct {
 }
 
 type ProductResponse struct {
+	Kind		string `json:"kind"`
 	ID          string  `json:"id"`
+	CategoryID	string `json:"category_id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	Price       uint64  `json:"price"`
