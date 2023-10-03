@@ -22,6 +22,7 @@ func NewCategoryHandler(app fiber.Router, categorySrv categorySrv.CategoryServic
 // @Success 200 {object} model.CategoryList
 // @Failure 404 {object} common.ApiErrorResponseModel
 // @Failure 500 {object} common.ApiErrorResponseModel
+// @Security Authorization
 // @Router /categories [get]
 func getAllCategory(categorySrv categorySrv.CategoryService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
@@ -47,6 +48,7 @@ func getAllCategory(categorySrv categorySrv.CategoryService) fiber.Handler {
 // @Success 200 {object} model.CategoryResponse
 // @Failure 404 {object} common.ApiErrorResponseModel
 // @Failure 500 {object} common.ApiErrorResponseModel
+// @Security Authorization
 // @Router /categories/{id} [get]
 func getCategoryByID(categorySrv categorySrv.CategoryService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
@@ -73,6 +75,7 @@ func getCategoryByID(categorySrv categorySrv.CategoryService) fiber.Handler {
 // @Success 200 {object} model.CategoryResponse
 // @Failure 422 {object} common.ErrorValidationResponseModel
 // @Failure 500 {object} common.ApiErrorResponseModel
+// @Security Authorization
 // @Router /categories [post]
 func createCategory(categorySrv categorySrv.CategoryService) fiber.Handler {
 	return func(c *fiber.Ctx) error {

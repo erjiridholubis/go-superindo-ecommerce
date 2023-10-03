@@ -15,7 +15,7 @@ const (
 	expiration = time.Hour * 1 // Token expiration time
 )
 
-// GenerateToken akan membuat token JWT untuk pengguna yang telah login.
+// GenerateToen is function to generate JWT token for logged in user.
 func GenerateToken(userID string) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.RegisteredClaims{
 		Subject: userID,
@@ -37,7 +37,7 @@ func extractBearerToken(authorizationHeader string) (string, bool) {
     return "", false
 }
 
-// JWTMiddleware adalah middleware untuk mengamankan rute dengan JWT.
+// JWTMiddleware is a middleware to secure routes with JWT.
 func JWTMiddleware() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var token string

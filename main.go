@@ -24,6 +24,11 @@ import (
 // @schemes  http
 // @host 127.0.0.1:3000
 // @Version 1.0.0
+
+// @SecurityDefinitions.apikey  Authorization
+// @in header
+// @name Authorization
+// @description This is a bearer token. Add 'Bearer ' before placing the token.
 func main() {
 	config, err := conf.InitConfig()
     if err != nil {

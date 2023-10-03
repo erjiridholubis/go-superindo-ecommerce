@@ -48,6 +48,7 @@ func getAllProduct(productSrv productSrv.ProductService) fiber.Handler {
 // @Success 200 {object} model.ProductResponse
 // @Failure 404 {object} common.ApiErrorResponseModel
 // @Failure 500 {object} common.ApiErrorResponseModel
+// @Security Authorization
 // @Router /products/{id} [get]
 func getProductByID(productSrv productSrv.ProductService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
@@ -74,6 +75,7 @@ func getProductByID(productSrv productSrv.ProductService) fiber.Handler {
 // @Success 200 {object} model.ProductResponse
 // @Failure 422 {object} common.ErrorValidationResponseModel
 // @Failure 500 {object} common.ApiErrorResponseModel
+// @Security Authorization
 // @Router /products [post]
 func createProduct(productSrv productSrv.ProductService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
@@ -106,6 +108,7 @@ func createProduct(productSrv productSrv.ProductService) fiber.Handler {
 // @Success 200 {object} model.ProductList
 // @Failure 404 {object} common.ApiErrorResponseModel
 // @Failure 500 {object} common.ApiErrorResponseModel
+// @Security Authorization
 // @Router /products/category/{id} [get]
 func getProductByCategoryID(productSrv productSrv.ProductService) fiber.Handler {
 	return func(c *fiber.Ctx) error {

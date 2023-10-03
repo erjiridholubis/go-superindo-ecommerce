@@ -75,6 +75,11 @@ const docTemplate = `{
         },
         "/categories": {
             "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
                 "description": "Get All Category",
                 "consumes": [
                     "application/json"
@@ -108,6 +113,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
                 "description": "Create Category",
                 "consumes": [
                     "application/json"
@@ -154,6 +164,11 @@ const docTemplate = `{
         },
         "/categories/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
                 "description": "Get Category By ID",
                 "consumes": [
                     "application/json"
@@ -231,6 +246,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
                 "description": "Create Product",
                 "consumes": [
                     "application/json"
@@ -277,6 +297,11 @@ const docTemplate = `{
         },
         "/products/category/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
                 "description": "Get Product By Category ID",
                 "consumes": [
                     "application/json"
@@ -321,6 +346,11 @@ const docTemplate = `{
         },
         "/products/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
                 "description": "Get Detail Product By ID",
                 "consumes": [
                     "application/json"
@@ -534,6 +564,14 @@ const docTemplate = `{
                     "type": "integer"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "Authorization": {
+            "description": "This is a bearer token. Add 'Bearer ' before placing the token.",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`
