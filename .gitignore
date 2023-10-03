@@ -1,5 +1,5 @@
 # Ignore config.yaml
-config.local.yaml
+# config.local.yaml
 
 # Ignore build golang
 main
