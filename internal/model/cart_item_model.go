@@ -19,3 +19,8 @@ type CartItemResponse struct {
     ProductID  string `json:"product_id"`
     Quantity   uint64  `json:"quantity"`
 }
+
+type CartItemList struct {
+    Kind       string `json:"kind"`
+    CartItems  []*CartItemResponse `json:"cart_items"`
+}

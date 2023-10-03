@@ -35,4 +35,5 @@ type PostgreRepository interface {
 	CreateCartItem(ctx context.Context, req *model.CartItem) (*model.CartItemResponse, error)
 	GetCartItemByUserIDAndProductID(ctx context.Context, userID, productID string) (*model.CartItemResponse, error)
 	UpdateCartItem(ctx context.Context, req *model.CartItem) (*model.CartItemResponse, error)
+	GetCartItemByUserID(ctx context.Context, userID string) ([]*model.CartItemResponse, error)
 }

@@ -40,6 +40,15 @@ definitions:
       token:
         type: string
     type: object
+  model.CartItemList:
+    properties:
+      cart_items:
+        items:
+          $ref: '#/definitions/model.CartItemResponse'
+        type: array
+      kind:
+        type: string
+    type: object
   model.CartItemRequest:
     properties:
       product_id:
@@ -272,6 +281,37 @@ paths:
       security:
       - Authorization: []
       summary: Create Cart Item
+      tags:
+      - Cart Item
+  /cart-items/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Cart Item By User ID
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.CartItemList'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+      security:
+      - Authorization: []
+      summary: Get Cart Item By User ID
       tags:
       - Cart Item
   /categories:

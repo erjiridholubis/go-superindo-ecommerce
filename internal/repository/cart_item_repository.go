@@ -18,6 +18,9 @@ var (
 
 	// Query Update Cart Item
 	QueryUpdateCartItem = `UPDATE cart_items SET quantity = $1 WHERE id = $2 RETURNING id, user_id, product_id, quantity`
+
+	// Query Get Cart Item By User ID
+	QueryGetCartItemByUserID = `SELECT id, user_id, product_id, quantity FROM cart_items WHERE user_id = $1`
 )
 
 func (pr *postgreRepository) CreateCartItem(ctx context.Context, req *model.CartItem) (*model.CartItemResponse, error) {
@@ -76,4 +79,32 @@ func (pr *postgreRepository) UpdateCartItem(ctx context.Context, req *model.Cart
 	cartItem.Kind = common.KindCartItem
 
 	return &cartItem, nil
+}
+
+func (pr *postgreRepository) GetCartItemByUserID(ctx context.Context, userID string) ([]*model.CartItemResponse, error) {
+	var cartItems []*model.CartItemResponse
+
+	rows, err := pr.ConnDB.QueryContext(ctx, QueryGetCartItemByUserID, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var cartItem model.CartItemResponse
+		err := rows.Scan(
+			&cartItem.ID,
+			&cartItem.UserID,
+			&cartItem.ProductID,
+			&cartItem.Quantity,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		cartItem.Kind = common.KindCartItem
+		cartItems = append(cartItems, &cartItem)
+	}
+
+	return cartItems, nil
 }

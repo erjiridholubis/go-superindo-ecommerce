@@ -9,6 +9,7 @@ import (
 
 func NewCartItemHandler(app fiber.Router, cartItemSrv cartItemSrv.CartItemService) {
 	app.Post("/", createCartItem(cartItemSrv))
+	app.Get("/:user_id", getCartItemByUserID(cartItemSrv))
 }
 
 // createCartItem godoc
@@ -40,6 +41,34 @@ func createCartItem(cartItemSrv cartItemSrv.CartItemService) fiber.Handler {
 
 		resp, err := cartItemSrv.CreateCartItem(c.Context(), &cartItemRequest, userID)
 		if err != nil {
+			return common.ErrorResponseRest(c, fiber.StatusInternalServerError, err.Error())
+		}
+
+		return common.SuccessResponse(c, fiber.StatusOK, resp)
+	}
+}
+
+// getCartItemByUserID godoc
+// @Summary Get Cart Item By User ID
+// @Description Get Cart Item By User ID
+// @Tags Cart Item
+// @Accept json
+// @Produce json
+// @Param user_id path string true "User ID"
+// @Success 200 {object} model.CartItemList
+// @Failure 404 {object} common.ApiErrorResponseModel
+// @Failure 500 {object} common.ApiErrorResponseModel
+// @Security Authorization
+// @Router /cart-items/{user_id} [get]
+func getCartItemByUserID(cartItemSrv cartItemSrv.CartItemService) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		userID := c.Params("user_id")
+
+		resp, err := cartItemSrv.GetCartItemByUserID(c.Context(), userID)
+		if err != nil {
+			if err.Error() == common.ErrNotFound {
+				return common.ErrorResponseRest(c, fiber.StatusNotFound, err.Error())
+			}
 			return common.ErrorResponseRest(c, fiber.StatusInternalServerError, err.Error())
 		}
 
