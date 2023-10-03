@@ -89,5 +89,5 @@ func main() {
     fmt.Printf("Server started on %s\n", httpAddr)
     
     // Run server Fiber
-    log.Fatal(app.Listen(""))
+    log.Fatal(app.Listen(httpAddr))
 }
