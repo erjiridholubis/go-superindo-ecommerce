@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	secretKey  = "RGB-AAA"
+	secretKey  = "API-SUPERINDO-PRODUCT"
 	expiration = time.Hour * 1 // Token expiration time
 )
 
@@ -30,6 +30,13 @@ func GenerateToken(userID string) (string, error) {
 	return tokenString, nil
 }
 
+func extractBearerToken(authorizationHeader string) (string, bool) {
+    if strings.HasPrefix(authorizationHeader, "Bearer ") {
+        return strings.TrimPrefix(authorizationHeader, "Bearer "), true
+    }
+    return "", false
+}
+
 // JWTMiddleware adalah middleware untuk mengamankan rute dengan JWT.
 func JWTMiddleware() fiber.Handler {
 	return func(c *fiber.Ctx) error {
@@ -37,13 +44,10 @@ func JWTMiddleware() fiber.Handler {
 
 		reqHeaders := c.GetReqHeaders()
 
-		if _, ok := reqHeaders["Authorization"]; ok {
-			splitToken := strings.Split(reqHeaders["Authorization"], "Bearer ")
-			token = splitToken[1]
-		}
-		
-		if token == "" {
-			return common.ErrorResponseRest(c, fiber.StatusForbidden, "Missing auth token")
+		 if getToken, ok := extractBearerToken(reqHeaders["Authorization"]); ok {
+			token = getToken
+		 } else {
+			return common.ErrorResponseRest(c, fiber.StatusForbidden, "Invalid auth token")
 		}
 
 		claims := jwt.RegisteredClaims{}
