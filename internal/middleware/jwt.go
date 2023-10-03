@@ -51,12 +51,16 @@ func JWTMiddleware() fiber.Handler {
 		}
 
 		claims := jwt.RegisteredClaims{}
-		_, err := jwt.ParseWithClaims(token, &claims, func(token *jwt.Token) (interface{}, error) {
+		parsedToken, err := jwt.ParseWithClaims(token, &claims, func(token *jwt.Token) (interface{}, error) {
 			return []byte(secretKey), nil
 		})
 
 		if err != nil {
 			return common.ErrorResponseRest(c, fiber.StatusUnauthorized, err.Error())
+		}
+
+		if parsedToken.Valid {
+			c.Locals("userID", claims.Subject)
 		}
 
 		return c.Next()
