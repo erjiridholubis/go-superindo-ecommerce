@@ -12,11 +12,11 @@ type Product struct {
 }
 
 type ProductRequest struct {
-	CategoryID	string `json:"category_id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Price       uint64  `json:"price"`
-	Stock       uint64  `json:"stock"`
+	CategoryID	string `json:"category_id" validate:"required" `
+	Name        string `json:"name" validate:"required" `
+	Description string `json:"description" validate:"required" `
+	Price       uint64  `json:"price" validate:"required" `
+	Stock       uint64  `json:"stock" validate:"required" `
 }
 
 type ProductResponse struct {

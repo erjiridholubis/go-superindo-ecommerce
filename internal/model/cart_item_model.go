@@ -8,7 +8,7 @@ type CartItem struct {
 }
 
 type CartItemRequest struct {
-    UserID     string `json:"user_id"`
-    ProductID  string `json:"product_id"`
-    Quantity   uint64  `json:"quantity"`
+    UserID     string `json:"user_id" validate:"required" `
+    ProductID  string `json:"product_id" validate:"required" `
+    Quantity   uint64  `json:"quantity" validate:"required" `
 }

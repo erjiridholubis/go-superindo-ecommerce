@@ -6,7 +6,7 @@ type Category struct {
 }
 
 type CategoryRequest struct {
-	Name        string `json:"name"`
+	Name        string `json:"name" validate:"required" `
 }
 
 type CategoryResponse struct {
