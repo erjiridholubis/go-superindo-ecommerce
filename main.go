@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	conf "github.com/erjiridholubis/go-superindo-product/internal/config"
@@ -83,6 +84,9 @@ func main() {
 	apiUser := pathApi.Group("/users")
 	httpHandler.NewUserHandler(apiUser, userService)
 
-
-	log.Fatal(app.Listen(":3000"))
+	httpAddr := config.Server.UserAddress
+    fmt.Printf("Server started on %s\n", httpAddr)
+    
+    // Run server Fiber
+    log.Fatal(app.Listen(httpAddr))
 }
