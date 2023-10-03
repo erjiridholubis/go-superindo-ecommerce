@@ -1,6 +1,6 @@
 server:
   user_address: ":3000"
-  user_address_http: "localhost:3000"
+  user_address_http: "go-superindo-ecommerce-production.up.railway.app"
 
 database:
   host: containers-us-west-123.railway.app

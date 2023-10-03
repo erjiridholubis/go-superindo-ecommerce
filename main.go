@@ -84,7 +84,7 @@ func main() {
 	apiUser := pathApi.Group("/users")
 	httpHandler.NewUserHandler(apiUser, userService)
 
-	httpAddr := config.Server.UserAddress
+	httpAddr := config.Server.UserAddressHttp
     fmt.Printf("Server started on %s\n", httpAddr)
     
     // Run server Fiber
