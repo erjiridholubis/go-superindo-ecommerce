@@ -30,6 +30,7 @@ type PostgreRepository interface {
 	// User
 	GetUserByUsername(ctx context.Context, username string) (*model.User, error)
 	CreateUser(ctx context.Context, user *model.User) (string, error)
+	GetUserByID(ctx context.Context, id string) (*model.UserResponse, error)
 
 	// Cart Item
 	CreateCartItem(ctx context.Context, req *model.CartItem) (*model.CartItemResponse, error)

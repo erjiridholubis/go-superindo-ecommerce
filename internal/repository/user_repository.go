@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 
+	"github.com/erjiridholubis/go-superindo-product/common"
 	"github.com/erjiridholubis/go-superindo-product/internal/model"
 )
 
@@ -14,6 +15,9 @@ var (
 
 	// Query Insert User
 	QueryInsertUser = `INSERT INTO users (id, name, username, password) VALUES ($1, $2, $3, $4) RETURNING id`
+
+	// Query Get User By ID
+	QueryGetUserByID = `SELECT id, name, username FROM users WHERE id = $1`
 )
 
 // GetUserByUsername is a function to get user data by username from database
@@ -47,4 +51,26 @@ func (pr *postgreRepository) CreateUser(ctx context.Context, user *model.User) (
 	}
 
 	return id, nil
+}
+
+// GetUserByID is a function to get user data by session id from database
+func (pr *postgreRepository) GetUserByID(ctx context.Context, id string) (*model.UserResponse, error) {
+	var user model.UserResponse
+
+	err := pr.ConnDB.QueryRowContext(ctx, QueryGetUserByID, id).Scan(
+		&user.ID,
+		&user.Name,
+		&user.Username,
+	)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	user.Kind = common.KindUser
+
+	return &user, nil
 }

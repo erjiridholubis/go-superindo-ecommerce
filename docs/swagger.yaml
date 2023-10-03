@@ -519,6 +519,31 @@ paths:
       summary: Get Product By Category ID
       tags:
       - Product
+  /users/profile:
+    get:
+      consumes:
+      - application/json
+      description: Get User Profile by User ID from JWT
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+      security:
+      - Authorization: []
+      summary: Get User Profile
+      tags:
+      - User
 schemes:
 - http
 securityDefinitions:
