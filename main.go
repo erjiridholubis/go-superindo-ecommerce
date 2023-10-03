@@ -61,6 +61,7 @@ func main() {
 	authService := service.NewAuthService(postgreRepo)
 	productService := service.NewProductService(postgreRepo)
 	categoryService := service.NewCategoryService(postgreRepo)
+	cartItemService := service.NewCartItemService(postgreRepo)
 
 	// Initialize handler
 	apiAuth := pathApi.Group("/auth")
@@ -74,6 +75,9 @@ func main() {
 
 	apiCategory := pathApi.Group("/categories")
 	httpHandler.NewCategoryHandler(apiCategory, categoryService)
+
+	apiCartItem := pathApi.Group("/cart-items")
+	httpHandler.NewCartItemHandler(apiCartItem, cartItemService)
 
 
 	log.Fatal(app.Listen(":3000"))

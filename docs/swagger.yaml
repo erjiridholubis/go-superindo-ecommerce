@@ -40,6 +40,29 @@ definitions:
       token:
         type: string
     type: object
+  model.CartItemRequest:
+    properties:
+      product_id:
+        type: string
+      quantity:
+        type: integer
+    required:
+    - product_id
+    - quantity
+    type: object
+  model.CartItemResponse:
+    properties:
+      id:
+        type: string
+      kind:
+        type: string
+      product_id:
+        type: string
+      quantity:
+        type: integer
+      user_id:
+        type: string
+    type: object
   model.CategoryList:
     properties:
       categories:
@@ -215,6 +238,42 @@ paths:
       summary: Register
       tags:
       - Auth
+  /cart-items:
+    post:
+      consumes:
+      - application/json
+      description: Create Cart Item
+      parameters:
+      - description: Cart Item
+        in: body
+        name: cartItem
+        required: true
+        schema:
+          $ref: '#/definitions/model.CartItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.CartItemResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.ErrorValidationResponseModel'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/common.ErrorValidationResponseModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+      security:
+      - Authorization: []
+      summary: Create Cart Item
+      tags:
+      - Cart Item
   /categories:
     get:
       consumes:
