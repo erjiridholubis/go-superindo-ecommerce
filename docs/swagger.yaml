@@ -239,7 +239,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get Product By ID
+      description: Get Detail Product By ID
       parameters:
       - description: Product ID
         in: path
@@ -262,6 +262,35 @@ paths:
           schema:
             $ref: '#/definitions/common.ApiErrorResponseModel'
       summary: Get Product By ID
+      tags:
+      - Product
+  /products/category/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Product By Category ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.ProductList'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+      summary: Get Product By Category ID
       tags:
       - Product
 schemes:

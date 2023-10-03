@@ -18,6 +18,9 @@ var (
 
 	// Query Create Product
 	QueryCreateProduct = `INSERT INTO products (id, name, description, price, stock, category_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
+
+	// Query Get Product By Category ID
+	QueryGetProductByCategoryID = `SELECT id, name, description, price, stock, category_id FROM products WHERE category_id = $1`
 	
 )
 
@@ -83,4 +86,34 @@ func (pr *postgreRepository) CreateProduct(ctx context.Context, product *model.P
 	}
 
 	return productId, nil
+}
+
+// GetProductByCategoryID is a function to get product data by category ID from database
+func (pr *postgreRepository) GetProductByCategoryID(ctx context.Context, categoryID string) ([]*model.ProductResponse, error) {
+	rows, err := pr.ConnDB.QueryContext(ctx, QueryGetProductByCategoryID, categoryID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var products []*model.ProductResponse
+	for rows.Next() {
+		var product model.ProductResponse
+		err := rows.Scan(
+			&product.ID,
+			&product.Name,
+			&product.Description,
+			&product.Price,
+			&product.Stock,
+			&product.CategoryID,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		product.Kind = common.KindProduct
+		products = append(products, &product)
+	}
+
+	return products, nil
 }

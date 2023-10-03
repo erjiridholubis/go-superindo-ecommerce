@@ -11,6 +11,7 @@ func NewProductHandler(app fiber.Router, productSrv productSrv.ProductService) {
 	app.Get("/", getAllProduct(productSrv))
 	app.Get("/:id", getProductByID(productSrv))
 	app.Post("/", createProduct(productSrv))
+	app.Get("/category/:id", getProductByCategoryID(productSrv))
 }
 
 // GetAllProduct godoc
@@ -39,7 +40,7 @@ func getAllProduct(productSrv productSrv.ProductService) fiber.Handler {
 
 // GetProductByID godoc
 // @Summary Get Product By ID
-// @Description Get Product By ID
+// @Description Get Detail Product By ID
 // @Tags Product
 // @Accept json
 // @Produce json
@@ -88,6 +89,32 @@ func createProduct(productSrv productSrv.ProductService) fiber.Handler {
 
 		product, err := productSrv.CreateProduct(c.Context(), &productRequest)
 		if err != nil {
+			return common.ErrorResponseRest(c, fiber.StatusInternalServerError, err.Error())
+		}
+
+		return common.SuccessResponse(c, fiber.StatusOK, product)
+	}
+}
+
+// GetProductByCategoryID godoc
+// @Summary Get Product By Category ID
+// @Description Get Product By Category ID
+// @Tags Product
+// @Accept json
+// @Produce json
+// @Param id path string true "Category ID"
+// @Success 200 {object} model.ProductList
+// @Failure 404 {object} common.ApiErrorResponseModel
+// @Failure 500 {object} common.ApiErrorResponseModel
+// @Router /products/category/{id} [get]
+func getProductByCategoryID(productSrv productSrv.ProductService) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		categoryId := c.Params("id")
+		product, err := productSrv.GetProductByCategoryID(c.Context(), categoryId)
+		if err != nil {
+			if err.Error() == common.ErrNotFound {
+				return common.ErrorResponseRest(c, fiber.StatusNotFound, err.Error())
+			}
 			return common.ErrorResponseRest(c, fiber.StatusInternalServerError, err.Error())
 		}
 

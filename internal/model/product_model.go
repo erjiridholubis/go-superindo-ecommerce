@@ -31,6 +31,6 @@ type ProductResponse struct {
 
 type ProductList struct {
 	Kind		string `json:"kind"`
-	CategoryID	string `json:"category_id"`
+	CategoryID	string `json:"category_id,omitempty"`
 	Products	[]*ProductResponse `json:"products"`
 }

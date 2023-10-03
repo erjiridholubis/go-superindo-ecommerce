@@ -21,6 +21,7 @@ type ProductService interface {
 	GetAllProduct(ctx context.Context) (resp *model.ProductList, err error)
 	GetProductByID(ctx context.Context, id string) (resp *model.ProductResponse, err error)
 	CreateProduct(ctx context.Context, product *model.ProductRequest) (resp *model.ProductResponse, err error)
+	GetProductByCategoryID(ctx context.Context, categoryID string) (resp *model.ProductList, err error)
 }
 
 func (ps *productService) GetAllProduct(ctx context.Context) (resp *model.ProductList, err error) {
@@ -77,6 +78,25 @@ func (ps *productService) CreateProduct(ctx context.Context, product *model.Prod
 		Price: data.Price,
 		Stock: data.Stock,
 		CategoryID: data.CategoryID,
+	}
+
+	return resp, nil
+}
+
+func (ps *productService) GetProductByCategoryID(ctx context.Context, categoryID string) (resp *model.ProductList, err error) {
+	products, err := ps.postgreRepo.GetProductByCategoryID(ctx, categoryID)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(products) == 0 {
+		return nil, errors.New(common.ErrNotFound)
+	}
+
+	resp = &model.ProductList{
+		Kind:     common.KindCollection,
+		CategoryID: categoryID,
+		Products: products,
 	}
 
 	return resp, nil
