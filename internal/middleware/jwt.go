@@ -43,7 +43,7 @@ func JWTMiddleware() fiber.Handler {
 		}
 		
 		if token == "" {
-			return common.ErrorResponseRest(c, fiber.StatusForbidden, "Missing token")
+			return common.ErrorResponseRest(c, fiber.StatusForbidden, "Missing auth token")
 		}
 
 		claims := jwt.RegisteredClaims{}

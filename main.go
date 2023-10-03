@@ -4,12 +4,13 @@ import (
 	"log"
 
 	conf "github.com/erjiridholubis/go-superindo-product/internal/config"
+	"github.com/erjiridholubis/go-superindo-product/internal/middleware"
 	"github.com/erjiridholubis/go-superindo-product/internal/repository"
 	"github.com/erjiridholubis/go-superindo-product/internal/service"
-	
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	
+
 	httpHandler "github.com/erjiridholubis/go-superindo-product/internal/deliveries"
 	fiberSwagger "github.com/swaggo/fiber-swagger"
 
@@ -40,7 +41,7 @@ func main() {
 	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 	
 	pathApi := app.Group("/api/v1")
-
+	
 	// get health
 	app.Get("/health", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
@@ -52,19 +53,23 @@ func main() {
 	postgreRepo := repository.NewPostgreRepository(db)
 
 	// Initialize service
+	authService := service.NewAuthService(postgreRepo)
 	productService := service.NewProductService(postgreRepo)
 	categoryService := service.NewCategoryService(postgreRepo)
-	authService := service.NewAuthService(postgreRepo)
 
 	// Initialize handler
+	apiAuth := pathApi.Group("/auth")
+	httpHandler.NewAuthHandler(apiAuth, authService)
+
+	// Using middleware
+	pathApi.Use(middleware.JWTMiddleware())
+
 	apiProduct := pathApi.Group("/products")
 	httpHandler.NewProductHandler(apiProduct, productService)
 
 	apiCategory := pathApi.Group("/categories")
 	httpHandler.NewCategoryHandler(apiCategory, categoryService)
 
-	apiAuth := pathApi.Group("/auth")
-	httpHandler.NewAuthHandler(apiAuth, authService)
 
 	log.Fatal(app.Listen(":3000"))
 }
