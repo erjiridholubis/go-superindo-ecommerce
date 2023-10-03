@@ -26,4 +26,7 @@ type PostgreRepository interface {
 	GetProductByID(ctx context.Context, id string) (*model.ProductResponse, error)
 	CreateProduct(ctx context.Context, product *model.Product) (string, error)
 	GetProductByCategoryID(ctx context.Context, id string) ([]*model.ProductResponse, error)
+
+	// User
+	GetUserByUsername(ctx context.Context, username string) (*model.User, error)
 }

@@ -23,6 +23,23 @@ definitions:
       message:
         type: string
     type: object
+  model.AuthRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  model.AuthResponse:
+    properties:
+      kind:
+        type: string
+      token:
+        type: string
+    type: object
   model.CategoryList:
     properties:
       categories:
@@ -102,6 +119,44 @@ info:
   title: Go Superindo API Product
   version: 1.0.0
 paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: Auth
+        in: body
+        name: auth
+        required: true
+        schema:
+          $ref: '#/definitions/model.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+      summary: Login
+      tags:
+      - Auth
   /categories:
     get:
       consumes:
