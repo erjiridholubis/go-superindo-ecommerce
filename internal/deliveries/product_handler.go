@@ -23,6 +23,7 @@ func NewProductHandler(app fiber.Router, productSrv productSrv.ProductService) {
 // @Success 200 {object} model.ProductList
 // @Failure 404 {object} common.ApiErrorResponseModel
 // @Failure 500 {object} common.ApiErrorResponseModel
+// @Security Authorization
 // @Router /products [get]
 func getAllProduct(productSrv productSrv.ProductService) fiber.Handler {
 	return func(c *fiber.Ctx) error {

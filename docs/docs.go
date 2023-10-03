@@ -265,6 +265,11 @@ const docTemplate = `{
         },
         "/products": {
             "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
                 "description": "Get All Product",
                 "consumes": [
                     "application/json"

@@ -322,6 +322,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/common.ApiErrorResponseModel'
+      security:
+      - Authorization: []
       summary: Get All Product
       tags:
       - Product
