@@ -15,6 +15,9 @@ var (
 
 	// Query Get Product By ID
 	QueryGetProductByID = `SELECT id, name, description, price, stock, category_id FROM products WHERE id = $1`
+
+	// Query Create Product
+	QueryCreateProduct = `INSERT INTO products (id, name, description, price, stock, category_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
 	
 )
 
@@ -70,4 +73,14 @@ func (pr *postgreRepository) GetProductByID(ctx context.Context, id string) (*mo
 	product.Kind = common.KindProduct
 
 	return &product, nil
+}
+
+// CreateProduct is a function to create product data to database
+func (pr *postgreRepository) CreateProduct(ctx context.Context, product *model.Product) (productId string, err error) {
+	err = pr.ConnDB.QueryRowContext(ctx, QueryCreateProduct, product.ID, product.Name, product.Description, product.Price, product.Stock, product.CategoryID).Scan(&productId)
+	if err != nil {
+		return "", err
+	}
+
+	return productId, nil
 }

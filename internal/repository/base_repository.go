@@ -24,4 +24,5 @@ type PostgreRepository interface {
 	// Product
 	GetAllProduct(ctx context.Context) ([]*model.ProductResponse, error)
 	GetProductByID(ctx context.Context, id string) (*model.ProductResponse, error)
+	CreateProduct(ctx context.Context, product *model.Product) (string, error)
 }

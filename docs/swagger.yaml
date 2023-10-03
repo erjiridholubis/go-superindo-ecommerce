@@ -36,6 +36,8 @@ definitions:
     properties:
       name:
         type: string
+    required:
+    - name
     type: object
   model.CategoryResponse:
     properties:
@@ -56,6 +58,25 @@ definitions:
         items:
           $ref: '#/definitions/model.ProductResponse'
         type: array
+    type: object
+  model.ProductRequest:
+    properties:
+      category_id:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      price:
+        type: integer
+      stock:
+        type: integer
+    required:
+    - category_id
+    - description
+    - name
+    - price
+    - stock
     type: object
   model.ProductResponse:
     properties:
@@ -183,6 +204,35 @@ paths:
           schema:
             $ref: '#/definitions/common.ApiErrorResponseModel'
       summary: Get All Product
+      tags:
+      - Product
+    post:
+      consumes:
+      - application/json
+      description: Create Product
+      parameters:
+      - description: Product Request
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/model.ProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.ProductResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/common.ErrorValidationResponseModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+      summary: Create Product
       tags:
       - Product
   /products/{id}:
