@@ -33,6 +33,34 @@ definitions:
       name:
         type: string
     type: object
+  model.ProductList:
+    properties:
+      category_id:
+        type: string
+      kind:
+        type: string
+      products:
+        items:
+          $ref: '#/definitions/model.ProductResponse'
+        type: array
+    type: object
+  model.ProductResponse:
+    properties:
+      category_id:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      kind:
+        type: string
+      name:
+        type: string
+      price:
+        type: integer
+      stock:
+        type: integer
+    type: object
 host: 127.0.0.1:3000
 info:
   contact: {}
@@ -92,6 +120,29 @@ paths:
       summary: Get Category By ID
       tags:
       - Category
+  /products:
+    get:
+      consumes:
+      - application/json
+      description: Get All Product
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.ProductList'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+      summary: Get All Product
+      tags:
+      - Product
 schemes:
 - http
 swagger: "2.0"

@@ -19,4 +19,7 @@ type PostgreRepository interface {
 	// Category
 	GetAllCategory(ctx context.Context) (resp []*model.CategoryResponse, err error)
 	GetCategoryByID(ctx context.Context, id string) (*model.CategoryResponse, error)
+
+	// Product
+	GetAllProduct(ctx context.Context) ([]*model.ProductResponse, error)
 }
