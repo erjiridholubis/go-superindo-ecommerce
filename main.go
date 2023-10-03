@@ -84,9 +84,10 @@ func main() {
 	apiUser := pathApi.Group("/users")
 	httpHandler.NewUserHandler(apiUser, userService)
 
+	// Port : 8080
 	httpAddr := config.Server.UserAddress
     fmt.Printf("Server started on %s\n", httpAddr)
     
     // Run server Fiber
-    log.Fatal(app.Listen(httpAddr))
+    log.Fatal(app.Listen(""))
 }
