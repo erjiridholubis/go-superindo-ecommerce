@@ -112,6 +112,30 @@ definitions:
       stock:
         type: integer
     type: object
+  model.User:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  model.UserRequest:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - name
+    - password
+    - username
+    type: object
 host: 127.0.0.1:3000
 info:
   contact: {}
@@ -155,6 +179,40 @@ paths:
           schema:
             $ref: '#/definitions/common.ApiErrorResponseModel'
       summary: Login
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ApiErrorResponseModel'
+      summary: Register
       tags:
       - Auth
   /categories:

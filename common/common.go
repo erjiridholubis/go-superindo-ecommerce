@@ -18,6 +18,7 @@ var (
 	MessageCreateSuccess    = "Successfully adding data"
 	ValidationFailedMessage = "Validation Failed"
 	
+	ErrUsernameAlreadyExist = "Username already exist"
 	ErrNotFound             = "Data not found"
 	ErrInvalidPassword		= "Invalid password"
 )

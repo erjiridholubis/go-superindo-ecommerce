@@ -29,4 +29,5 @@ type PostgreRepository interface {
 
 	// User
 	GetUserByUsername(ctx context.Context, username string) (*model.User, error)
+	CreateUser(ctx context.Context, user *model.User) (string, error)
 }

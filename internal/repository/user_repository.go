@@ -11,6 +11,9 @@ import (
 var (
 	// Query Get User By Username
 	QueryGetUserByUsername = `SELECT id, name, username, password FROM users WHERE username = $1`
+
+	// Query Insert User
+	QueryInsertUser = `INSERT INTO users (id, name, username, password) VALUES ($1, $2, $3, $4) RETURNING id`
 )
 
 // GetUserByUsername is a function to get user data by username from database
@@ -32,4 +35,16 @@ func (pr *postgreRepository) GetUserByUsername(ctx context.Context, username str
 	}
 
 	return &user, nil
+}
+
+// CreateUser is a function to insert user data to database
+func (pr *postgreRepository) CreateUser(ctx context.Context, user *model.User) (string, error) {
+	var id string
+
+	err := pr.ConnDB.QueryRowContext(ctx, QueryInsertUser, user.ID, user.Name, user.Username, user.Password).Scan(&id)
+	if err != nil {
+		return "", err
+	}
+
+	return id, nil
 }
