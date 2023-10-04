@@ -867,7 +867,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0.0",
-	Host:             "https://go-superindo-ecommerce-production.up.railway.app",
+	Host:             "go-superindo-ecommerce-production.up.railway.app",
 	BasePath:         "/api/v1",
 	Schemes:          []string{"https"},
 	Title:            "Go Superindo API Product",

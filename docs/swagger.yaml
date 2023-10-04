@@ -168,7 +168,7 @@ definitions:
     - password
     - username
     type: object
-host: https://go-superindo-ecommerce-production.up.railway.app
+host: go-superindo-ecommerce-production.up.railway.app
 info:
   contact: {}
   description: This is a sample server for Lion Superindo API Product Service.
