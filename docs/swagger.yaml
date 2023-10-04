@@ -168,7 +168,7 @@ definitions:
     - password
     - username
     type: object
-host: 127.0.0.1:3000
+host: https://go-superindo-ecommerce-production.up.railway.app
 info:
   contact: {}
   description: This is a sample server for Lion Superindo API Product Service.
@@ -545,7 +545,7 @@ paths:
       tags:
       - User
 schemes:
-- http
+- https
 securityDefinitions:
   Authorization:
     description: This is a bearer token. Add 'Bearer ' before placing the token.
